@@ -1,0 +1,11 @@
+.para-box{
+    display: inline-block;
+    background-color: grey;
+    color: black;
+    margin: 16px auto;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+    width: 30%;
+    padding: 16px;
+    text-align: center;
+}
