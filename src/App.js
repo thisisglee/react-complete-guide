@@ -1,6 +1,6 @@
 import classes from './app.module.css';
 import React, { Component } from 'react';
-
+import { ErrorBoundary } from "./ErrorBoundary/ErrorBoundary";
 
 import Person from "./Person/Person";
 
@@ -14,6 +14,25 @@ class App extends Component {
     ],
     otherState: 'some other value',
     showPersons: false
+  };
+
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    });
+
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    // const person = Object.assign({}, this.state.persons[personIndex]);
+
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({ persons: persons });
   };
 
   deletePersonHandler = (personIndex) => {
@@ -40,11 +59,15 @@ class App extends Component {
         <div>
           {this.state.persons.map((person, index) =>{
             return (
-              <Person
-                click={() => this.deletePersonHandler(index)}
+              <ErrorBoundary>
                 key={person.id}
+                <Person
+                click={() => this.deletePersonHandler(index)}
                 name={person.name}
-                age={person.age}/>
+                age={person.age}
+                changed={event => this.nameChangedHandler(event, person.id)}/>
+              </ErrorBoundary>
+              
             )})
           }
         </div>
